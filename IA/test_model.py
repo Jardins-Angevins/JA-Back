@@ -18,12 +18,13 @@ link = "http://www.stridvall.se/flowers/albums/Asteraceae_2/AAAA9015.jpg"
 
 temp_name = '.temp'
 
-loaded_model = load_model("../model_autokeras", custom_objects=ak.CUSTOM_OBJECTS)
+loaded_model = load_model("model_autokeras", custom_objects=ak.CUSTOM_OBJECTS)
 test = urllib.request.urlretrieve(link, temp_name)
 print(test)
 
 img = cv2.imread(temp_name)
-img = ra.img_crop(img)
+img = ra.img_crop(img, (256, 256))
+#img = cv2.resize(img, (256, 256),cv2.INTER_AREA )
 cv2.imshow('image window', img)
 
 cv2.waitKey(0)

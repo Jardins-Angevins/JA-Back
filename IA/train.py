@@ -4,7 +4,8 @@ import numpy as np
 from tqdm import tqdm
 import autokeras as ak
 import resize_algorithm as ra
-datas_path = '../datas/tela_botanica_images_min'
+
+datas_path = 'datas/tela_botanica_images_min'
 
 
 def dataset_creator(datas_path):
@@ -13,7 +14,7 @@ def dataset_creator(datas_path):
     y_dataset = []
     for file in tqdm(os.listdir(datas_path)):
         img = cv2.imread(f'{datas_path}/{file}')
-        img = ra.img_crop(img)
+        img = ra.img_crop(img, (256, 256))
 
         x_dataset.append(img)
         y_dataset.append(int(file.split("_")[1]))
