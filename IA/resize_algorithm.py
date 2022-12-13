@@ -3,7 +3,7 @@ import numpy as np
 from typing import Iterable
 
 
-def img_crop(img: np.ndarray, dim: tuple[int, int]) -> Iterable[np.ndarray]:
+def img_crop(img: np.ndarray, dim: tuple[int, int]):
     if (img.shape[0] / img.shape[1]) == (dim[0] / dim[1]):
         yield cv2.resize(img, dim)
 
@@ -27,7 +27,7 @@ def img_crop(img: np.ndarray, dim: tuple[int, int]) -> Iterable[np.ndarray]:
     yield img
 
 
-def img_crop_all(img: np.ndarray, dim: tuple[int, int]) -> Iterable[np.ndarray]:
+def img_crop_all(img: np.ndarray, dim: tuple[int, int]) :
     if (img.shape[0] / img.shape[1]) == (dim[0] / dim[1]):
         yield cv2.resize(img, dim)
 
@@ -55,7 +55,7 @@ def img_crop_all(img: np.ndarray, dim: tuple[int, int]) -> Iterable[np.ndarray]:
         yield img[:, -dim[1] - offset: (-offset) if offset > 0 else None]
 
 
-def img_fill_black(img: np.ndarray, dim: tuple[int, int]) -> Iterable[np.ndarray]:
+def img_fill_black(img: np.ndarray, dim: tuple[int, int]) :
     if (img.shape[0] / img.shape[1]) == (dim[0] / dim[1]):
         yield cv2.resize(img, dim)
 
