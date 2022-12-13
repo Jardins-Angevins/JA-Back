@@ -6,7 +6,7 @@ path_csv = '../datas/tela_botanica_export.csv'
 folder_output = '/home/etud/PycharmProjects/JA-Angers/datas/tela_botanica_images'
 folder_min = '/home/etud/PycharmProjects/JA-Angers/datas/tela_botanica_images_min'
 start = 0
-end = 10
+end = 3
 
 with open(path_csv, newline='') as csvfile:
     csv_list = list(csv.reader(csvfile, delimiter=','))[1:]
@@ -18,4 +18,5 @@ with open(path_csv, newline='') as csvfile:
     for file_name in os.listdir(folder_output):
         if file_name.split("_")[1] in num_list:
             print(file_name.split("_")[1])
+
             shutil.copy(f"{folder_output}/{file_name}",f"{folder_min}/{file_name}")
