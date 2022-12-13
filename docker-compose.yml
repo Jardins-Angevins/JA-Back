@@ -1,0 +1,27 @@
+version: "3.3"
+services:
+
+  web:
+    build: .
+    entrypoint: python3 main.py
+    ports:
+      - "8088:8088"
+    networks:
+      - backend
+    volumes:
+      - .:/var/Jardins-Angevins
+    depends_on:
+      - database
+
+
+  database:
+    image: "cassandra:4.1"
+    networks:
+      - backend
+
+
+networks:
+  backend:
+
+volumes:
+  v:
