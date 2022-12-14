@@ -17,10 +17,6 @@ def flatten_generator(dataX, dataY):
         for img in generator:
             x_dataset.append(img)
             y_dataset.append(dataY[i])
-
-            cv2.imshow('image window', img)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
     return np.array(x_dataset), np.array(y_dataset)
 
 
@@ -42,7 +38,7 @@ def dataset_creator(datas_path,resize_function):
 
 X_train, X_test, y_train, y_test = dataset_creator(datas_path,ra.img_fill_black)
 
-clf = ak.ImageClassifier(overwrite=True, max_trials=10)
+clf = ak.ImageClassifier(overwrite=True, max_trials=1)
 
 # Entrainement
 clf.fit(

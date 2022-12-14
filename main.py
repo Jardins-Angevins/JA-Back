@@ -2,26 +2,13 @@ from flask import Flask
 from faker import fake
 from db import getAllSpecies
 
-import csv
-import base64
-import numpy as np
-from flask import Flask, request,abort
-from keras.models import load_model
-import autokeras as ak
-
+from tools import base64_to_numpy
+from flask import request
+from IA import Model
 app = Flask(__name__, instance_relative_config=True)
 
 fake()
 
-PATH_CSV = "datas/tela_botanica_export.csv"
-IMAGE_SIZE = 256
-
-
-loaded_model = load_model("model_autokeras", custom_objects=ak.CUSTOM_OBJECTS)
-with open(PATH_CSV, newline='') as csvfile:
-	csv_list = list(csv.reader(csvfile, delimiter=','))[1:]
-	label_list = list(set([list(line)[3] for line in csv_list if list(line)[3].isdigit()]))
-	label_list.sort()
 
 
 @app.route('/statistics', methods=['GET'])
@@ -34,15 +21,14 @@ def map():
 
 @app.route('/query', methods=['POST'])
 def query():
+	# Extract
 	data = request.get_json()
-	image_base64 = request.get_json()["image64"]
-	image = np.frombuffer(base64.b64decode(bytes(image_base64,"utf-8")), dtype=np.uint8)
-	image = np.reshape(image,(1,IMAGE_SIZE,IMAGE_SIZE,3))
-	prediction = loaded_model.predict(image)[0]
-	maximum = np.where(prediction == np.max(prediction))[0][0]
-	resp = label_list[maximum]
-	print(resp)
-	return resp
+	image_base64 = data["image64"]
+	# Reshape
+	image = base64_to_numpy(image_base64,256,256)
+	# Predict
+	return Model.predict(image)
+	# TODO : save query in DB
 
 @app.route('/species', methods=['GET'])
 def species():

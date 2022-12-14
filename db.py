@@ -31,7 +31,7 @@ class Species(Model):
 	stats             = columns.UserDefinedType(Stats)
 	images            = columns.List( value_type = columns.Ascii ) #Base64 Image
 
-#sync_type ( 'Stats', Stats )
+sync_type ( 'JardinsAngevins', Stats )
 sync_table ( Species )
 
 # Define here method to fetch database using :

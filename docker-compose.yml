@@ -12,6 +12,8 @@ services:
       - .:/var/Jardins-Angevins
     depends_on:
       - database
+    environment:
+      - CQLENG_ALLOW_SCHEMA_MANAGEMENT=1
 
 
   database:
