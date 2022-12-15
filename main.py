@@ -21,11 +21,11 @@ fake()
 @app.route('/statistics', methods=['GET'])
 def statistics():
 	return json.dumps({
-		'pictureCount': 0,
+		'pictureCount': db.getPictureCount(),
 		'contributionCount': db.getContributionCount(),
 		'downloadCount': statsService.getDownloadCount(),
-		'speciesCount': 0,
-		'plantsCount': 0
+		'speciesCount': db.getSpeciesCount(),
+		'plantsCount': db.getPlantsCount()
 	})
 
 @app.route('/map', methods=['GET'])

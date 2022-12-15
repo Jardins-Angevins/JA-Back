@@ -64,3 +64,13 @@ def getAllSpecies():
 
 def getContributionCount():
 	return UserInput.objects.count()
+
+def getSpeciesCount():
+	return Species.objects.count()
+	
+def getPlantsCount():
+	return UserInput.objects.count()
+
+def getPictureCount():
+	# Implement logic : count(UserInput) + ( foreach k in Species count(images) )
+	return 42
