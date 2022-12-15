@@ -4,7 +4,7 @@ from db import getAllSpecies
 
 from tools import base64_to_numpy
 from flask import request
-from IA import Model
+from ia.model_loader import Model
 app = Flask(__name__, instance_relative_config=True)
 
 fake()
@@ -27,11 +27,12 @@ def query():
 	# Reshape
 	image = base64_to_numpy(image_base64,256,256)
 	# Predict
-	return Model.predict(image)
+	return model.predict_one(image)
 	# TODO : save query in DB
 
 @app.route('/species', methods=['GET'])
 def species():
 	return ''
 
+model = Model()
 app.run(debug=True, port=8088, host='0.0.0.0')
