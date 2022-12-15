@@ -5,6 +5,12 @@ from db import getAllSpecies
 from tools import base64_to_numpy
 from flask import request
 from IA import Model
+
+import services.stats as s_stats
+
+import json
+
+
 app = Flask(__name__, instance_relative_config=True)
 
 fake()
@@ -13,7 +19,13 @@ fake()
 
 @app.route('/statistics', methods=['GET'])
 def statistics():
-	return ''
+	return json.dumps({
+		'pictureCount': 0,
+		'contributionCount': 0,
+		'downloadCount': s_stats.getDownloadCount(),
+		'speciesCount': 0,
+		'plantsCount': 0
+	})
 
 @app.route('/map', methods=['GET'])
 def map():
