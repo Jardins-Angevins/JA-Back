@@ -5,6 +5,7 @@ from cassandra.cqlengine.usertype import UserType
 from cassandra.cqlengine.management import create_keyspace_simple 
 from cassandra.cqlengine.management import sync_type, sync_table
 from cassandra.util import uuid_from_time
+from cassandra.cluster import Cluster
 
 import time
 ###
@@ -73,4 +74,7 @@ def getPlantsCount():
 
 def getPictureCount():
 	# Implement logic : count(UserInput) + ( foreach k in Species count(images) )
-	return 42
+	return UserInput.objects.count() + sum( [ len( species.images ) for species in Species.objects.all() ] )
+	# /!\ WARNING TODO this is an inneficient way of doing this because all() as an LIMIT attribute in the query and the logic for the Species part should be done by Cassandra
+	# /!\ WARNING TODO however CQL does not support subquery technic so we can't use method like SELECT COUNT(x) FROM ( SELECT COUNT(images) FROM Species GROUP BY Id ) 
+	# /!\ WARNING TODO and there is no such method len() of List to make a query like : SELECT SUM(LEN(images)) FROM Species WHERE id = 1; 

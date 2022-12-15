@@ -1,13 +1,12 @@
 from flask import Flask
 from faker import fake
-from db import getAllSpecies, getContributionCount
 
 from tools import base64_to_numpy
 from flask import request
 from IA import Model
 
 import services.stats as statsService 
-import db
+import services.db as dbService
 
 import json
 
@@ -21,16 +20,16 @@ fake()
 @app.route('/statistics', methods=['GET'])
 def statistics():
 	return json.dumps({
-		'pictureCount': db.getPictureCount(),
-		'contributionCount': db.getContributionCount(),
+		'pictureCount': dbService.getPictureCount(),
+		'contributionCount': dbService.getContributionCount(),
 		'downloadCount': statsService.getDownloadCount(),
-		'speciesCount': db.getSpeciesCount(),
-		'plantsCount': db.getPlantsCount()
+		'speciesCount': dbService.getSpeciesCount(),
+		'plantsCount': dbService.getPlantsCount()
 	})
 
 @app.route('/map', methods=['GET'])
 def map():
-	return f"{[ x for x in db.getAllSpecies()]}"
+	return f"{[ x for x in dbService.getAllSpecies()]}"
 
 @app.route('/query', methods=['POST'])
 def query():
