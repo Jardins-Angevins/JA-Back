@@ -12,7 +12,7 @@ import time
 ### Connexion to database
 ###
 
-connection.setup( hosts=['database'] , default_keyspace='JardinsAngevins' )
+connection.setup( hosts=['172.18.0.2'] , default_keyspace='JardinsAngevins' )
 create_keyspace_simple( name = 'JardinsAngevins', replication_factor = 1 )
 
 ###
@@ -25,7 +25,7 @@ class Stats(UserType):
 	toxicity     = columns.SmallInt()
 
 class Species(Model):
-	id                 = columns.UUID(primary_key=True)
+	nominalNumber      = columns.BigInt(primary_key=True)
 	name               = columns.Text()
 	scientificName     = columns.Text()
 	refImage           = columns.Ascii() #Base64 Image
@@ -39,7 +39,7 @@ class Probability(UserType):
 class UserInput(Model):
 	id                 = columns.UUID(primary_key=True)
 	image              = columns.Ascii() #Base64 Image
-	iaGuessedSpeciesId = columns.UUID() #Foreign key of Species.id
+	iaGuessedSpeciesId = columns.BigInt() #Foreign key of Species.id
 	iaGuesses          = columns.List( value_type = columns.UserDefinedType(Probability) )
 	latitude           = columns.Float()
 	longitude          = columns.Float()
@@ -78,3 +78,6 @@ def getPictureCount():
 	# /!\ WARNING TODO this is an inneficient way of doing this because all() as an LIMIT attribute in the query and the logic for the Species part should be done by Cassandra
 	# /!\ WARNING TODO however CQL does not support subquery technic so we can't use method like SELECT COUNT(x) FROM ( SELECT COUNT(images) FROM Species GROUP BY Id ) 
 	# /!\ WARNING TODO and there is no such method len() of List to make a query like : SELECT SUM(LEN(images)) FROM Species WHERE id = 1; 
+
+def getOneSpecies(nominalNumber):
+	return Species.filter(nominalNumber=nominalNumber).first()

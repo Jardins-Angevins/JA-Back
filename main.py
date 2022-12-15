@@ -44,7 +44,20 @@ def query():
 
 @app.route('/species', methods=['GET'])
 def species():
-	return ''
+	nominal_number = request.args.get('nominalNumber')
+	species = dbService.getOneSpecies(int(nominal_number))
+	return json.dumps(
+		{
+			"name":species.name,
+			"scientificName":species.scientificName,
+			"refImage":species.refImage,
+			"stats": {
+				"water":species.stats.water,
+				"light":species.stats.light,
+				"toxicity":species.stats.toxicity,
+			}
+		}
+	)
 
 model = Model()
 app.run(debug=True, port=8088, host='0.0.0.0')

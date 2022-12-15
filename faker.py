@@ -1,9 +1,9 @@
-from services.db import Species, Stats, getUUID
+from services.db import Species, Stats
 
 
 def fake():
 	temp = Species( 
-		id				= getUUID(),
+		nominalNumber	= 992501,
 		name            = "Coquelicot",
 		scientificName  = "Papaver rhoeas",
 		refImage        = "SomeFakeBase64Data",
@@ -12,6 +12,6 @@ def fake():
 			light    = 3,
 			toxicity = 4
 		),
-		images          = ['SomeFakeBase64Data']
+		images          = ['SomeFakeBase64Data','SomeFakeBase64Data']
 	)
 	temp.save()
