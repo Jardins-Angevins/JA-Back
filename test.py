@@ -22,8 +22,8 @@ def test_statistics():
 
 def test_species():
     url = 'http://localhost:8088/species'
-    response = requests.get(url,params={'nominalNumber':992501})
-    print(response.text)
+    response = requests.get(url,params={'nominalNumber':99501})
+    print(response.status_code)
 
 test_statistics()
 test_species()

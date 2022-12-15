@@ -25,7 +25,7 @@ def statistics():
 		'downloadCount': statsService.getDownloadCount(),
 		'speciesCount': dbService.getSpeciesCount(),
 		'plantsCount': dbService.getPlantsCount()
-	})
+	}),200
 
 @app.route('/map', methods=['GET'])
 def map():
@@ -46,18 +46,21 @@ def query():
 def species():
 	nominal_number = request.args.get('nominalNumber')
 	species = dbService.getOneSpecies(int(nominal_number))
-	return json.dumps(
-		{
-			"name":species.name,
-			"scientificName":species.scientificName,
-			"refImage":species.refImage,
-			"stats": {
-				"water":species.stats.water,
-				"light":species.stats.light,
-				"toxicity":species.stats.toxicity,
+	if species is not None:
+		return json.dumps(
+			{
+				"name":species.name,
+				"scientificName":species.scientificName,
+				"refImage":species.refImage,
+				"stats": {
+					"water":species.stats.water,
+					"light":species.stats.light,
+					"toxicity":species.stats.toxicity,
+				}
 			}
-		}
-	)
+		),200
+	else :
+		return {"message": "This nominal number is uknown"}, 404
 
 model = Model()
 app.run(debug=True, port=8088, host='0.0.0.0')
