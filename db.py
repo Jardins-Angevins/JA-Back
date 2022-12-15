@@ -24,15 +24,32 @@ class Stats(UserType):
 	toxicity     = columns.SmallInt()
 
 class Species(Model):
-	id                = columns.UUID(primary_key=True)
-	name              = columns.Text()
-	scientificName    = columns.Text()
-	refImage          = columns.Ascii() #Base64 Image
-	stats             = columns.UserDefinedType(Stats)
-	images            = columns.List( value_type = columns.Ascii ) #Base64 Image
+	id                 = columns.UUID(primary_key=True)
+	name               = columns.Text()
+	scientificName     = columns.Text()
+	refImage           = columns.Ascii() #Base64 Image
+	stats              = columns.UserDefinedType(Stats)
+	images             = columns.List( value_type = columns.Ascii ) #Base64 Image
+
+class Probability(UserType):
+	speciesId = columns.UUID() #Foreign jey of Species id
+	trust = columns.Float()
+
+class UserInput(Model):
+	id                 = columns.UUID(primary_key=True)
+	image              = columns.Ascii() #Base64 Image
+	iaGuessedSpeciesId = columns.UUID() #Foreign key of Species.id
+	iaGuesses          = columns.List( value_type = columns.UserDefinedType(Probability) )
+	latitude           = columns.Float()
+	longitude          = columns.Float()
+	photoTimestamp     = columns.Integer()
+	
+
 
 sync_type ( 'JardinsAngevins', Stats )
+sync_type ( 'JardinsAngevins', Probability )
 sync_table ( Species )
+sync_table ( UserInput )
 
 # Define here method to fetch database using :
 # - https://cassandra.apache.org/_/quickstart.html
@@ -44,3 +61,6 @@ def getUUID():
 	
 def getAllSpecies():
 	return Species.objects.all()
+
+def getContributionCount():
+	return UserInput.objects.count()
