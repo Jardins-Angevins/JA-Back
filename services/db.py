@@ -12,7 +12,7 @@ import time
 ### Connexion to database
 ###
 
-connection.setup( hosts=['172.18.0.2'] , default_keyspace='JardinsAngevins' )
+connection.setup( hosts=['database'] , default_keyspace='JardinsAngevins' )
 create_keyspace_simple( name = 'JardinsAngevins', replication_factor = 1 )
 
 ###
@@ -81,3 +81,11 @@ def getPictureCount():
 
 def getOneSpecies(nominalNumber):
 	return Species.filter(nominalNumber=nominalNumber).first()
+
+def getAllInputsInRange(firstposition,secondposition):
+	# Implement logic : firstposition and secondposition represent a square we return the inputs inside this square
+	latitudes = (firstposition[0],secondposition[0]) if firstposition[0] > secondposition[0] else (secondposition[0],firstposition[0])
+	longitudes = (firstposition[1],secondposition[1]) if firstposition[1] > secondposition[1] else (secondposition[1],firstposition[1])
+	inputs = UserInput.filter(latitude__gte=latitudes[1],latitude__lte=latitudes[0],longitude__gte=longitudes[1],longitude__lte=longitudes[0]).allow_filtering()
+	# TODO : allow_filtering() is not efficiency in cassandra the other way use filter without allowing we can index latititude and longitude as primary keys
+	return list(inputs)
