@@ -65,7 +65,7 @@ def map():
 	return json.dumps({"inputs":response}),200
 
 
-@app.route('/query', methods=['POST','GET'])
+@app.route('/query', methods=['POST'])
 def query():
 	lat = request.args.get('lat')
 	long = request.args.get('long')
