@@ -1,6 +1,7 @@
 /datas/tela_botanica_images/
 /datas/tela_botanica_images_min/IMG*
 /image_classifier/
+/model/
 /venv/
 # Created by .ignore support plugin (hsz.mobi)
 ### Python template
