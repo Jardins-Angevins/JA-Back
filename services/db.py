@@ -84,13 +84,50 @@ def getPictureCount():
 def getOneSpecies(nominalNumber):
 	return Species.filter(nominalNumber=nominalNumber).first()
 
-def getAllInputsInRange(firstposition,secondposition):
-	# Implement logic : firstposition and secondposition represent a square we return the inputs inside this square
-	latitudes = (firstposition[0],secondposition[0]) if firstposition[0] > secondposition[0] else (secondposition[0],firstposition[0])
-	longitudes = (firstposition[1],secondposition[1]) if firstposition[1] > secondposition[1] else (secondposition[1],firstposition[1])
-	inputs = UserInput.filter(latitude__gte=latitudes[1],latitude__lte=latitudes[0],longitude__gte=longitudes[1],longitude__lte=longitudes[0]).allow_filtering()
+def getAllInputsInRange(centerPos :tuple,deltaPos :tuple,speciesId :int,year :int):
+	# Implement logic : centerPos and deltaPos represent a square
+	cplat,cplong = centerPos
+	dplat,dplong = deltaPos
+	min_latitude = cplat - dplat
+	max_latitude = cplat + dplat
+	min_longitude = cplong - dplong
+	max_longitude = cplong + dplong
+	if year != None:
+		year_start = time.mktime(time.strptime(f"{year}-01-01 00:00:01", '%Y-%m-%d %H:%M:%S'))
+		year_end = time.mktime(time.strptime(f"{year+1}-01-01 00:00:01", '%Y-%m-%d %H:%M:%S'))
+		if speciesId != None:
+			query = UserInput.filter(
+				latitude__gte=min_latitude,
+				latitude__lte=max_latitude,
+				longitude__gte=min_longitude,
+				longitude__lte=max_longitude,
+				iaGuessedSpeciesId=speciesId,
+				photoTimestamp__gte=year_start,
+				photoTimestamp__lte=year_end)
+		else:
+			query = UserInput.filter(
+				latitude__gte=min_latitude,
+				latitude__lte=max_latitude,
+				longitude__gte=min_longitude,
+				longitude__lte=max_longitude
+				photoTimestamp__gte=year_start,
+				photoTimestamp__lte=year_end)
+	else:
+		if speciesId != None:
+			query = UserInput.filter(
+				latitude__gte=min_latitude,
+				latitude__lte=max_latitude,
+				longitude__gte=min_longitude,
+				longitude__lte=max_longitude,
+				iaGuessedSpeciesId=speciesId)
+		else:
+			query = UserInput.filter(
+				latitude__gte=min_latitude,
+				latitude__lte=max_latitude,
+				longitude__gte=min_longitude,
+				longitude__lte=max_longitude)
+	return query.allow_filtering()
 	# TODO : allow_filtering() is not efficiency in cassandra the other way use filter without allowing we can index latititude and longitude as primary keys
-	return list(inputs)
 
 def addInput(image,predict,latitude,longitude):
 	temp = UserInput(

@@ -28,7 +28,31 @@ def map():
 	long = request.args.get('long')
 	dlat = request.args.get('dlat')
 	dlong = request.args.get('dlong')
-	inputs = dbService.getAllInputsInRange((lat,long),(dlat,dlong))
+
+	species = request.args.get('species')
+	year = request.args.get('year')
+
+	# Check request validity
+	## Mandatory args
+	if any( x==None for x in [lat,long,dlat,dlong] ):
+		return {},400
+	## Check type
+	try:
+		lat  = float(lat)
+		long  = float(long)
+		dlat  = float(dlat)
+		dlong  = float(dlong)
+		if year != None:
+			year = int(year)
+		if species != None:
+			species = int(species)
+	except ValueError:
+		return {},400
+	
+	# Logic
+	## Ask database
+	inputs = dbService.getAllInputsInRange((lat,long),(dlat,dlong),species,year)
+	## Reshape output
 	response = []
 	for input in inputs:
 
@@ -37,6 +61,7 @@ def map():
 			"longitude":input.longitude,
 			"iaGuessedSpeciesId":input.iaGuessedSpeciesId,
 		})
+	## Send response
 	return json.dumps({"inputs":response}),200
 
 
