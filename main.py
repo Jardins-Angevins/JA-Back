@@ -29,7 +29,21 @@ def statistics():
 
 @app.route('/map', methods=['GET'])
 def map():
-	return f"{[ x for x in dbService.getAllSpecies()]}"
+	lat = request.args.get('lat')
+	long = request.args.get('long')
+	dlat = request.args.get('dlat')
+	dlong = request.args.get('dlong')
+	inputs = dbService.getAllInputsInRange((lat,long),(dlat,dlong))
+	response = []
+	for input in inputs:
+
+		response.append({
+			"latitude":input.latitude,
+			"longitude":input.longitude,
+			"iaGuessedSpeciesId":input.iaGuessedSpeciesId,
+		})
+	return json.dumps({"inputs":response}),200
+
 
 @app.route('/query', methods=['POST'])
 def query():

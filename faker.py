@@ -1,6 +1,5 @@
-from services.db import Species, Stats
-
-
+from services.db import Species, Stats,UserInput,getUUID
+import datetime
 def fake():
 	temp = Species( 
 		nominalNumber	= 992501,
@@ -14,4 +13,17 @@ def fake():
 		),
 		images          = ['SomeFakeBase64Data','SomeFakeBase64Data']
 	)
+	temp2= UserInput(
+
+		id=getUUID(),
+		image = "SomeFakeBase64Data",
+		iaGuessedSpeciesId = 992501,
+		latitude = 3,
+		longitude = 3,
+		photoTimestamp = datetime.datetime.now().timestamp()
+
+	)
+
+
 	temp.save()
+	temp2.save()
