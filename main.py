@@ -67,17 +67,34 @@ def map():
 
 @app.route('/query', methods=['POST'])
 def query():
+	# TODO : Set a limit rate on this query to avoid some kind of denial service attacks or saturation of the storage space of the database 
 	lat = request.args.get('lat')
 	long = request.args.get('long')
-	# Extract
+
+	# Check request validity
+	## Mandatory args
+	if any( x==None for x in [lat,long,dlat,dlong] ):
+		return {},400
+	## Check type
+	try:
+		lat  = float(lat)
+		long  = float(long)
+	except ValueError:
+		return {},400
+
+	# Handle request body
+	## Extract
 	data = request.get_json()
 	image_base64 = data["image64"]
-	# Reshape
+	## Reshape
 	image = base64_to_numpy(image_base64,256,256)
-	# Predict
+
+	# logic
+	## Predict
 	predict =  model.predict_one(image)
-	# Save into the database
+	## Save entry into the database
 	dbService.addInput(image_base64,predict,lat,long)
+	## Send response
 	return json.dumps({
 		"prediction": predict
 	}),201
