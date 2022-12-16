@@ -12,7 +12,7 @@ def test_query():
     image = np.array(image_pil)
     image = list(re.img_crop(image,IMAGE_SIZE))[0]
     image = base64.b64encode(image).decode("utf-8")
-    response = requests.post(url, json={'image64': image})
+    response = requests.post(url, json={'image64': image},params={"lat":3,"long":3})
     print(response.text,response.status_code)
 
 def test_statistics():
