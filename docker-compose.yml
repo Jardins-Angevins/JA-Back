@@ -2,7 +2,11 @@ version: "3.3"
 services:
 
   web:
-    build: .
+    build:
+      context: .
+      args:
+        UID: 1000
+        GID: 1000
     entrypoint: python3 main.py
     ports:
       - "8088:8088"
