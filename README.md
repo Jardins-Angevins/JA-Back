@@ -180,3 +180,9 @@ Pour build le projet
 > cd scrapping && python3 image_tela_botanica.py && cd ..
 > docker-compose build
 > ```
+
+Pour lancer les tets, _on suppose le projet déjà lancer_
+> ```back
+> docker-compose exec web python3 faker.py
+> find tests -name Test*.py -exec python3 -m unittest {} \;
+> ```
