@@ -73,7 +73,7 @@ def query():
 
 	# Check request validity
 	## Mandatory args
-	if any( x==None for x in [lat,long,dlat,dlong] ):
+	if any( x==None for x in [lat,long] ):
 		return {},400
 	## Check type
 	try:
@@ -103,7 +103,19 @@ def query():
 @app.route('/species', methods=['GET'])
 def species():
 	nominal_number = request.args.get('nominalNumber')
-	species = dbService.getOneSpecies(int(nominal_number))
+
+	# Check request validity
+	## Mandatory args
+	if any( x==None for x in [nominal_number] ):
+		return {},400
+	## Check type
+	try:
+		nominal_number  = int(nominal_number)
+	except ValueError:
+		return {},400
+
+	# logic
+	species = dbService.getOneSpecies(nominal_number)
 	if species is not None:
 		return json.dumps(
 			{
