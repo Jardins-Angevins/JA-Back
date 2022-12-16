@@ -109,7 +109,7 @@ def getAllInputsInRange(centerPos :tuple,deltaPos :tuple,speciesId :int,year :in
 				latitude__gte=min_latitude,
 				latitude__lte=max_latitude,
 				longitude__gte=min_longitude,
-				longitude__lte=max_longitude
+				longitude__lte=max_longitude,
 				photoTimestamp__gte=year_start,
 				photoTimestamp__lte=year_end)
 	else:
