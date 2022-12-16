@@ -1,3 +1,5 @@
+import datetime
+
 from cassandra.cqlengine import columns
 from cassandra.cqlengine import connection
 from cassandra.cqlengine.models import Model
@@ -89,3 +91,15 @@ def getAllInputsInRange(firstposition,secondposition):
 	inputs = UserInput.filter(latitude__gte=latitudes[1],latitude__lte=latitudes[0],longitude__gte=longitudes[1],longitude__lte=longitudes[0]).allow_filtering()
 	# TODO : allow_filtering() is not efficiency in cassandra the other way use filter without allowing we can index latititude and longitude as primary keys
 	return list(inputs)
+
+def addInput(image,predict,latitude,longitude):
+	temp = UserInput(
+		id=getUUID(),
+		image=image,
+		iaGuessedSpeciesId=predict,
+		latitude =latitude,
+		longitude=longitude,
+		photoTimestamp= datetime.datetime.now().timestamp()
+		# TODO: Add list of probability
+	)
+	temp.save()
