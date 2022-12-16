@@ -1,10 +1,9 @@
 from flask import Flask
-from faker import fake
 
 from tools import base64_to_numpy
 from flask import request
-from ia.model_loader import Model
 
+from ia.model_loader import Model
 import services.stats as statsService 
 import services.db as dbService
 
@@ -12,10 +11,6 @@ import json
 
 
 app = Flask(__name__, instance_relative_config=True)
-
-fake()
-
-
 
 @app.route('/statistics', methods=['GET'])
 def statistics():

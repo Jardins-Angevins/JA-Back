@@ -1,7 +1,7 @@
 from services.db import Species, Stats,UserInput,getUUID
 import datetime
 def fake():
-	temp = Species( 
+	Species.create( 
 		nominalNumber	= 992501,
 		name            = "Coquelicot",
 		scientificName  = "Papaver rhoeas",
@@ -13,7 +13,7 @@ def fake():
 		),
 		images          = ['SomeFakeBase64Data','SomeFakeBase64Data']
 	)
-	temp2= UserInput(
+	UserInput.create(
 
 		id=getUUID(),
 		image = "SomeFakeBase64Data",
@@ -21,9 +21,4 @@ def fake():
 		latitude = 3,
 		longitude = 3,
 		photoTimestamp = datetime.datetime.now().timestamp()
-
 	)
-
-
-	temp.save()
-	temp2.save()

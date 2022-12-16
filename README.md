@@ -159,3 +159,18 @@ Ce service backend met à disposition une API avec 4 endpoints répondant en JSO
 		</tr>
 	</tbody>
 </table>
+
+
+### Commande utile
+Pour lancer la création de fake data :
+> ```bash
+> docker-compose exec web python3 faker.py`
+> ```
+
+Pour lancer le projet
+> ```back
+> docker-compose build
+> docker-compose up -d database
+> sleep 3 #Attente de quelques seconde pour le lancement de cassandra
+> docker-compose up -d web
+> ```
