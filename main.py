@@ -45,16 +45,23 @@ def map():
 	return json.dumps({"inputs":response}),200
 
 
-@app.route('/query', methods=['POST'])
+@app.route('/query', methods=['POST','GET'])
 def query():
+	lat = request.args.get('lat')
+	long = request.args.get('long')
 	# Extract
 	data = request.get_json()
 	image_base64 = data["image64"]
 	# Reshape
 	image = base64_to_numpy(image_base64,256,256)
 	# Predict
-	return model.predict_one(image)
-	# TODO : save query in DB
+	predict =  model.predict_one(image)
+	# Save into the database
+	dbService.addInput(image_base64,predict,lat,long)
+	return json.dumps({
+		"prediction": predict
+	}),201
+
 
 @app.route('/species', methods=['GET'])
 def species():
