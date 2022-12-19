@@ -7,7 +7,7 @@ BASE_URL = 'http://localhost:8088/species'
 class TestSpeciesRoute(unittest.TestCase):
 
 	def test_fetch(self):
-		response = requests.get( BASE_URL ,params={ 'nominalNumber' : 99501 } )
+		response = requests.get( BASE_URL ,params={ 'nominalNumber' : 992501 } )
 		data = json.loads( response.text )
 		self.assertEqual( response.status_code , 200 )
 		self.assertIsInstance( data['name'] ,              str)
