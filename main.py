@@ -85,13 +85,23 @@ def query():
 	# Handle request body
 	## Extract
 	data = request.get_json()
+	## Image must have been transfered
+	if not ("image64" in data):
+		return {},400
 	image_base64 = data["image64"]
 	## Reshape
-	image = base64_to_numpy(image_base64,256,256)
+	try:
+		image = base64_to_numpy(image_base64,256,256)
+	except AttributeError:
+		# If unable to reshape : image have been given in wrong format or ratio
+		return {},400
+	except ValueError:
+		# If unable to reshape : image have been given in wrong format or ratio
+		return {},400
 
 	# logic
 	## Predict
-	predict =  model.predict_one(image)
+	predict = int(model.predict_one(image))
 	## Save entry into the database
 	dbService.addInput(image_base64,predict,lat,long)
 	## Send response
