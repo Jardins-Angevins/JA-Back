@@ -184,5 +184,5 @@ Pour build le projet
 Pour lancer les tets, _on suppose le projet déjà lancer_
 > ```back
 > docker-compose exec web python3 faker.py
-> find tests -name Test*.py -exec python3 -m unittest {} \;
+> docker-compose exec web python3 -m unittest $(find tests -name Test*.py)
 > ```
