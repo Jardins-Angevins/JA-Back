@@ -69,10 +69,3 @@ class TestQueryRoute(unittest.TestCase):
 		self.assertEqual( response.status_code , 400 )
 
 	
-
-
-
-
-def test_query():
-    response = requests.post(url, json={'image64': image},params={"lat":3,"long":3})
-    print(response.text,response.status_code)
