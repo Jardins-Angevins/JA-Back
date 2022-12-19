@@ -48,6 +48,9 @@ def map():
 			species = int(species)
 	except ValueError:
 		return {},400
+
+	if dlat*dlong > 6:
+		return {},416
 	
 	# Logic
 	## Ask database
