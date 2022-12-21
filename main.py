@@ -107,9 +107,10 @@ def query():
 
 	# logic
 	## Predict
-	predict = int(model.predict_one(image))
+	predict,predictionList = model.predict_one(image)
+	predict = int(predict)
 	## Save entry into the database
-	dbService.addInput(image_base64,predict,lat,long)
+	dbService.addInput(image_base64,predict,lat,long,predictionList)
 	## Send response
 	return json.dumps({
 		"prediction": predict

@@ -11,7 +11,7 @@ DATAS_PATH = './datas/tela_botanica_images_min'
 MODEL_NAME_H5 = "model.h5"
 MODEL_NAME= "model"
 IMAGE_SIZE = (256,256)
-
+SAVED_N_BEST = 2
 
 class Model:
 	def __init__(self):
@@ -25,12 +25,17 @@ class Model:
 	def predict_one(self,image):
 		"""
 		:param image: single image in numpy format
-		:return: a string label that describes the species of the plant in the image
+		:return: a tuple of two elements with :
+			the first one : a string label that describes the species of the plant in the image
+			the second one : a list of pair ( label , trust ) with the n best species
 		"""
 		image = np.reshape(image,(1,image.shape[0],image.shape[1],3))
 		prediction = self._loaded_model.predict(image)[0]
 		maximum = np.where(prediction == np.max(prediction))[0][0]
-		return self._label_list[maximum]
+		bestLabel = self._label_list[maximum]
+		bestsPredictionsIndex = np.argpartition( prediction , SAVED_N_BEST )[-SAVED_N_BEST:]
+		bestsPredictions = [ (self._label_list[ pId ],prediction[ pId]) for pId in bestsPredictionsIndex ]
+		return (bestLabel,bestsPredictions)
 
 	def _generate_model(self,max_trials=1):
 		# train the model

@@ -35,7 +35,7 @@ class Species(Model):
 	images             = columns.List( value_type = columns.Ascii ) #Base64 Image
 
 class Probability(UserType):
-	speciesId = columns.BigInt() #Foreign key of Species id
+	species_refid = columns.BigInt() #Foreign key of Species id
 	trust = columns.Float()
 
 class UserInput(Model):
@@ -137,6 +137,6 @@ def addInput(image,predict,latitude,longitude,pred_list):
 		latitude =latitude,
 		longitude=longitude,
 		photoTimestamp= datetime.datetime.now().timestamp(),
-		iaGuesses=[ Probability(speciesId=label , trust=trust) for (label,trust) in pred_list ]
+		iaGuesses=[ Probability(species_refid=int(label) , trust=trust) for (label,trust) in pred_list ]
 	)
 	temp.save()
