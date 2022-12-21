@@ -35,7 +35,7 @@ class Species(Model):
 	images             = columns.List( value_type = columns.Ascii ) #Base64 Image
 
 class Probability(UserType):
-	speciesId = columns.UUID() #Foreign jey of Species id
+	speciesId = columns.BigInt() #Foreign key of Species id
 	trust = columns.Float()
 
 class UserInput(Model):
@@ -129,14 +129,14 @@ def getAllInputsInRange(centerPos :tuple,deltaPos :tuple,speciesId :int,year :in
 	return query.allow_filtering()
 	# TODO : allow_filtering() is not efficiency in cassandra the other way use filter without allowing we can index latititude and longitude as primary keys
 
-def addInput(image,predict,latitude,longitude):
+def addInput(image,predict,latitude,longitude,pred_list):
 	temp = UserInput(
 		id=getUUID(),
 		image=image,
 		iaGuessedSpeciesId=predict,
 		latitude =latitude,
 		longitude=longitude,
-		photoTimestamp= datetime.datetime.now().timestamp()
-		# TODO: Add list of probability
+		photoTimestamp= datetime.datetime.now().timestamp(),
+		iaGuesses=[ Probability(speciesId=label , trust=trust) for (label,trust) in pred_list ]
 	)
 	temp.save()
