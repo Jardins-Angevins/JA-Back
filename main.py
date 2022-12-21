@@ -51,6 +51,9 @@ def map():
 
 	if dlat*dlong > 6:
 		return {},416
+
+	if (year != None) and (year < 0):
+		return {},400
 	
 	# Logic
 	## Ask database

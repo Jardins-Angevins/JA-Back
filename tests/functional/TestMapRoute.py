@@ -4,7 +4,7 @@ import json
 
 BASE_URL = 'http://localhost:8088/map'
 
-class TestStatisticsRoute(unittest.TestCase):
+class TestMapRoute(unittest.TestCase):
 
 	def test_fetch(self):
 		response = requests.get( BASE_URL , params={"lat":49,"long":0,"dlat":2,"dlong":2} )
@@ -65,10 +65,6 @@ class TestStatisticsRoute(unittest.TestCase):
 	# Special value which could make a crash
 	def test_special_value_for_arg_year(self):
 		response = requests.get( BASE_URL , params={"lat":49,"long":0,"dlat":2,"dlong":2,"year":-99999} )
-		self.assertEqual( response.status_code , 400 )
-
-	def test_special_value_for_arg_species(self):
-		response = requests.get( BASE_URL , params={"lat":49,"long":0,"dlat":2,"dlong":2,"species":-99999} )
 		self.assertEqual( response.status_code , 400 )
 
 
