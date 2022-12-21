@@ -190,3 +190,7 @@ fabric.properties
 .idea
 /IA/.temp
 /model_autokeras/
+
+
+
+config.toml

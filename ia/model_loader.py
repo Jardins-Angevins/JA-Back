@@ -6,12 +6,12 @@ import autokeras as ak
 import keras.models as km
 import os
 
-PATH_CSV = "./datas/tela_botanica_export.csv"
-DATAS_PATH = './datas/tela_botanica_images_min'
-MODEL_NAME_H5 = "model.h5"
-MODEL_NAME= "model"
-IMAGE_SIZE = (256,256)
-SAVED_N_BEST = 2
+PATH_CSV =      globals()['config']['IA']['Model']['PATH_CSV']
+DATAS_PATH =    globals()['config']['IA']['Model']['DATAS_PATH']
+MODEL_NAME_H5 = globals()['config']['IA']['Model']['MODEL_NAME_H5']
+MODEL_NAME =    globals()['config']['IA']['Model']['MODEL_NAME']
+IMAGE_SIZE =    globals()['config']['IA']['IMAGE_SIZE']
+SAVED_N_BEST =  globals()['config']['IA']['SAVED_N_BEST']
 
 class Model:
 	def __init__(self):

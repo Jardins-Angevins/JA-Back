@@ -1,3 +1,9 @@
+import toml
+global config
+with open('config.toml','r') as conf:
+  config = toml.loads( ''.join(conf.readlines()) )
+
+
 from flask import Flask
 
 from tools import base64_to_numpy
@@ -97,7 +103,7 @@ def query():
 	image_base64 = data["image64"]
 	## Reshape
 	try:
-		image = base64_to_numpy(image_base64,256,256)
+		image = base64_to_numpy(image_base64)
 	except AttributeError:
 		# If unable to reshape : image have been given in wrong format or ratio
 		return {},400
@@ -150,4 +156,8 @@ def species():
 		return {"message": "This nominal number is uknown"}, 404
 
 model = Model()
-app.run(debug=True, port=8088, host='0.0.0.0')
+app.run(
+	debug=globals()['config']['WEB']['DEBUG'],
+	port=globals()['config']['WEB']['PORT'],
+	host='0.0.0.0'
+)
