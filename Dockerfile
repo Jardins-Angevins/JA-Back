@@ -15,7 +15,7 @@ RUN useradd -m -u $UID -g $GID -s /bin/bash mathias
 USER mathias
 
 RUN echo "export PATH=/home/mathias/.local/bin:$PATH" >> /home/mathias/.bashrc
-RUN pip3 install numpy scikit-learn requests keras autokeras flask cassandra-driver opencv-python tqdm Pillow
+RUN pip3 install numpy scikit-learn requests keras autokeras flask cassandra-driver opencv-python tqdm Pillow toml
 
 ENTRYPOINT python3
 
