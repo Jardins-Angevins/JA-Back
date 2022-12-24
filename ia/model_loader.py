@@ -6,12 +6,17 @@ import autokeras as ak
 import keras.models as km
 import os
 
-PATH_CSV =      globals()['config']['IA']['Model']['PATH_CSV']
-DATAS_PATH =    globals()['config']['IA']['Model']['DATAS_PATH']
-MODEL_NAME_H5 = globals()['config']['IA']['Model']['MODEL_NAME_H5']
-MODEL_NAME =    globals()['config']['IA']['Model']['MODEL_NAME']
-IMAGE_SIZE =    globals()['config']['IA']['IMAGE_SIZE']
-SAVED_N_BEST =  globals()['config']['IA']['SAVED_N_BEST']
+
+import sys
+sys.path.append('.')
+from config import config 
+
+PATH_CSV =      config.get('IA.Model.PATH_CSV')
+DATAS_PATH =    config.get('IA.Model.DATAS_PATH')
+MODEL_NAME_H5 = config.get('IA.Model.MODEL_NAME_H5')
+MODEL_NAME =    config.get('IA.Model.MODEL_NAME')
+IMAGE_SIZE =    config.get('IA.IMAGE_SIZE')
+SAVED_N_BEST =  config.get('IA.SAVED_N_BEST')
 
 class Model:
 	def __init__(self):

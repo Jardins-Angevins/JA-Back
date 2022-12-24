@@ -1,7 +1,5 @@
-import toml
+
 global config
-with open('config.toml','r') as conf:
-  config = toml.loads( ''.join(conf.readlines()) )
 
 
 from flask import Flask
@@ -15,6 +13,7 @@ import services.db as dbService
 
 import json
 
+from config import config
 
 app = Flask(__name__, instance_relative_config=True)
 
@@ -157,7 +156,7 @@ def species():
 
 model = Model()
 app.run(
-	debug=globals()['config']['WEB']['DEBUG'],
-	port=globals()['config']['WEB']['PORT'],
+	debug=config.get('WEB.DEBUG'),
+	port=config.get('WEB.PORT'),
 	host='0.0.0.0'
 )
