@@ -122,7 +122,7 @@ def query():
 	}),201
 
 
-@app.route('/species', methods=['GET'])
+@app.route('/species/wiki', methods=['GET'])
 def species():
 	nominal_number = request.args.get('nominalNumber')
 
