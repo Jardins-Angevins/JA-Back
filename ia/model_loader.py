@@ -44,7 +44,7 @@ class Model:
 
 	def _generate_model(self,max_trials=1):
 		# train the model
-		X_train, X_test, y_train, y_test = dataset_creator(DATAS_PATH, ra.img_fill_black,IMAGE_SIZE)
+		X_train, X_test, y_train, y_test = dataset_creator(DATAS_PATH, ra.img_crop_all,IMAGE_SIZE)
 		clf = ak.ImageClassifier(overwrite=True, max_trials=max_trials)
 		clf.fit(
 			X_train,

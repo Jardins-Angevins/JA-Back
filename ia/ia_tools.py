@@ -24,7 +24,7 @@ def dataset_creator(datas_path,resize_function,image_size):
     for file in tqdm(os.listdir(datas_path)):
         if file.startswith("IMG"):
             img = cv2.imread(f'{datas_path}/{file}')
-            imgs = resize_function(img, (image_size[0], image_size[1]))
+            imgs = list(resize_function(img, (image_size[0], image_size[1])))
             x_dataset.append(imgs)
             y_dataset.append(int(file.split("_")[1]))
 
