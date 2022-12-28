@@ -81,6 +81,23 @@ def getPictureCount():
 	# /!\ WARNING TODO however CQL does not support subquery technic so we can't use method like SELECT COUNT(x) FROM ( SELECT COUNT(images) FROM Species GROUP BY Id ) 
 	# /!\ WARNING TODO and there is no such method len() of List to make a query like : SELECT SUM(LEN(images)) FROM Species WHERE id = 1; 
 
+def getSpeciesList(page :int): 
+	# /!\ WARNING TODO this is an inneficient way of doing pagination
+	# /!\ WARNING TODO this is made like that just because there isn't any implementation of an OFFSET in CQL
+	page_size = 25
+	offset = page*page_size
+
+	result = []
+	i = 0
+	for s in Species.objects.all():
+		if i >= offset:
+			result.append(s)
+		i += 1
+		if i >= (page_size + offset):
+			break
+
+	return result
+
 def getOneSpecies(nominalNumber):
 	return Species.filter(nominalNumber=nominalNumber).first()
 
