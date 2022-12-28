@@ -154,6 +154,36 @@ def species():
 	else :
 		return {"message": "This nominal number is uknown"}, 404
 
+@app.route('/species/list', methods=['GET'])
+def speciesList():
+	page = request.args.get('page')
+
+	# Check request validity
+	## Check type
+	try:
+		if page == None:
+			page = 0
+		else:
+			page = int(page)
+	except ValueError:
+		return {}, 400
+	if page < 0:
+		return {}, 400
+	
+	# logic
+	species = [ 
+		{
+			'nominalNumber':s.nominalNumber,
+			'name':s.name,
+			'image':s.refImage,
+		}
+		for s in dbService.getSpeciesList(page) ]
+
+	if len(species) == 0:
+		return {}, 404
+	else:
+		return json.dumps({"species":species}),200
+
 model = Model()
 app.run(
 	debug=config.get('WEB.DEBUG'),
