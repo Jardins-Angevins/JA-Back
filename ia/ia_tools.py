@@ -23,10 +23,15 @@ def dataset_creator(datas_path,resize_function,image_size):
     y_dataset = []
     for file in tqdm(os.listdir(datas_path)):
         if file.startswith("IMG"):
-            img = cv2.imread(f'{datas_path}/{file}')
-            imgs = list(resize_function(img, (image_size[0], image_size[1])))
-            x_dataset.append(imgs)
-            y_dataset.append(int(file.split("_")[1]))
+            with open(os.path.join(datas_path,file), 'rb') as f:
+                check_chars = f.read()[-2:]
+            if check_chars != b'\xff\xd9':
+                print('Not complete image')
+            else:
+                img = cv2.imread(f'{datas_path}/{file}')
+                imgs = list(resize_function(img, (image_size[0], image_size[1])))
+                x_dataset.append(imgs)
+                y_dataset.append(int(file.split("_")[1]))
 
     X_train, X_test, y_train, y_test = train_test_split(x_dataset, y_dataset, test_size=0.15, random_state=0)
     X_train, y_train = flatten_generator(X_train, y_train)
