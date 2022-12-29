@@ -7,7 +7,7 @@ class config:
 
 	@staticmethod
 	def setup():
-		with open('default-config.toml','r') as conf:
+		with open('config.toml','r') as conf:
   			config.data = toml.loads( ''.join(conf.readlines()) )
 
 	def get(path):
