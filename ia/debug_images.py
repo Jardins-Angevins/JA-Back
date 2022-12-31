@@ -49,6 +49,8 @@ for i in range(0,len(species),offset):
     except Exception as e:
         print(e)
         print("error on species: ", species_local)
+        with open("error.log","a") as f:
+            f.write("error on species: "+str(species_local))
     if os.path.exists(MODEL_NAME_H5):shutil.rmtree(MODEL_NAME_H5)
     if os.path.exists(MODEL_NAME): shutil.rmtree(MODEL_NAME)
 
