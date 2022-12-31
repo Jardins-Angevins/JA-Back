@@ -8,12 +8,13 @@ class config:
 	@staticmethod
 	def setup():
 		with open('config.toml','r') as conf:
-  			config.data = toml.loads( ''.join(conf.readlines()) )
+			config.data = toml.loads( ''.join(conf.readlines()) )
 
+	@staticmethod
 	def get(path):
 		try:
 
-			if config.data == None:
+			if config.data is None:
 				config.setup()
 
 			res = config.data
