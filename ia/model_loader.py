@@ -1,6 +1,10 @@
+import sys
+sys.path.append('.')
+sys.path.append('ia')
+
 import csv
 import numpy as np
-from ia.ia_tools import dataset_creator
+from ia_tools import dataset_creator
 from ia import resize_algorithm as ra
 import autokeras as ak
 import keras.models as km
@@ -40,11 +44,11 @@ class Model:
 		bestLabel = self._label_list[maximum]
 		bestsPredictionsIndex = np.argpartition( prediction , SAVED_N_BEST )[-SAVED_N_BEST:]
 		bestsPredictions = [ (self._label_list[ pId ],prediction[ pId]) for pId in bestsPredictionsIndex ]
-		return (bestLabel,bestsPredictions)
+		return bestLabel,bestsPredictions
 
 	def _generate_model(self,max_trials=1):
 		# train the model
-		X_train, X_test, y_train, y_test = dataset_creator(DATAS_PATH, ra.img_crop_all,IMAGE_SIZE)
+		X_train, X_test, y_train, y_test = dataset_creator(DATAS_PATH,PATH_RESIZED_SAVE,ra.img_crop_all,IMAGE_SIZE)
 		clf = ak.ImageClassifier(overwrite=True, max_trials=max_trials)
 		clf.fit(
 			X_train,
