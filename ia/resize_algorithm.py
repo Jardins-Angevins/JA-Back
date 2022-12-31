@@ -44,15 +44,16 @@ def img_crop_all(img: np.ndarray, dim: tuple[int, int]) :
     if img.shape[0] > dim[0]:
         centerX = img.shape[0] // 2
         yield img[centerX - (dim[0] // 2): centerX + (dim[0] // 2), :]
-        offset = img[0:centerX].shape[0] - dim[0] if img[0:centerX].shape[0] > dim[0] else 0
+        offset = centerX - dim[0] if centerX > dim[0] else 0
         yield img[0 + offset: dim[0] + offset, :]
-        yield img[-dim[0] - offset: offset if offset > 0 else None, :]
+        yield img[-(dim[0] + offset): -offset, :]
     elif img.shape[1] > dim[1]:
+        print("here")
         centerY = img.shape[1] // 2
         yield img[:, centerY - (dim[1] // 2): centerY + (dim[1] // 2)]
-        offset = img[:, 0:centerY].shape[1] - dim[1] if img[:, 0:centerY].shape[1] > dim[1] else 0
+        offset = centerY - dim[1] if centerY > dim[1] else 0
         yield img[:, 0 + offset: dim[1] + offset]
-        yield img[:, -dim[1] - offset: (-offset) if offset > 0 else None]
+        yield img[:, -(offset + dim[1]) : 0 - offset]
 
 
 def img_fill_black(img: np.ndarray, dim: tuple[int, int]) :
