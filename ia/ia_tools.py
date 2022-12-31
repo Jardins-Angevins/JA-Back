@@ -20,15 +20,10 @@ def resize_all_images(datas_path,path_save,resize_function,image_size):
     if not os.path.exists(path_save):
         for file in tqdm(os.listdir(datas_path)):
             if file.startswith("IMG"):
-                with open(os.path.join(datas_path, file), 'rb') as f:
-                    check_chars = f.read()[-2:]
-                if check_chars != b'\xff\xd9':
-                    print('Not complete image')
-                else:
-                    img = cv2.imread(f'{datas_path}/{file}')
-                    imgs = list(resize_function(img, (image_size[0], image_size[1])))
-                    x_dataset.append(imgs)
-                    y_dataset.append(int(file.split("_")[1]))
+                img = cv2.imread(f'{datas_path}/{file}')
+                imgs = list(resize_function(img, (image_size[0], image_size[1])))
+                x_dataset.append(imgs)
+                y_dataset.append(int(file.split("_")[1]))
         x_dataset = np.array(x_dataset)
         y_dataset = np.array(y_dataset)
         np.save(path_save,np.array([x_dataset,y_dataset]),allow_pickle=True)
