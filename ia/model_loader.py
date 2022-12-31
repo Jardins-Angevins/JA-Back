@@ -17,6 +17,7 @@ from config import config
 
 PATH_CSV =      config.get('IA.Model.PATH_CSV')
 DATAS_PATH =    config.get('IA.Model.DATAS_PATH')
+PATH_RESIZED_SAVE = config.get('IA.Model.PATH_RESIZED_SAVE')
 MODEL_NAME_H5 = config.get('IA.Model.MODEL_NAME_H5')
 MODEL_NAME =    config.get('IA.Model.MODEL_NAME')
 IMAGE_SIZE =    config.get('IA.IMAGE_SIZE')
