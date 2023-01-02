@@ -2,7 +2,7 @@ import unittest
 import requests
 import json
 
-BASE_URL = 'http://localhost:8088/species'
+BASE_URL = 'http://localhost:8088/species/wiki'
 
 class TestSpeciesRoute(unittest.TestCase):
 
