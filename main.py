@@ -1,7 +1,3 @@
-
-global config
-
-
 from flask import Flask
 
 from tools import base64_to_numpy
@@ -152,7 +148,7 @@ def species():
 			}
 		),200
 	else :
-		return {"message": "This nominal number is uknown"}, 404
+		return {}, 404
 
 @app.route('/species/list', methods=['GET'])
 def speciesList():
