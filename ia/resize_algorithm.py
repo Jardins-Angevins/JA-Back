@@ -1,7 +1,28 @@
 import cv2
 import numpy as np
 from typing import Iterable
+def img_crop(img: np.ndarray, dim: tuple[int, int]):
+    if (img.shape[0] / img.shape[1]) == (dim[0] / dim[1]):
+        yield cv2.resize(img, dim)
 
+    lower_shape = 0 if img.shape[0] < img.shape[1] else 1
+    greater_shape = 0 if img.shape[0] > img.shape[1] else 1
+    factor = dim[lower_shape] / img.shape[lower_shape]
+    new_dim = (dim[lower_shape], round(img.shape[greater_shape] * factor))
+
+    if lower_shape == 0:
+        new_dim = new_dim[::-1]
+
+    img = cv2.resize(img, new_dim)
+
+    if img.shape[0] > dim[0]:
+        centerX = img.shape[0] // 2
+        img = img[centerX - (dim[0] // 2): centerX + (dim[0] // 2), :]
+    if img.shape[1] > dim[1]:
+        centerY = img.shape[1] // 2
+        img = img[:, centerY - (dim[1] // 2): centerY + (dim[1] // 2)]
+
+    yield img
 def img_crop_all(img: np.ndarray, dim: tuple[int, int]) :
     """
     :param img: image in the numpy array format.
