@@ -16,6 +16,13 @@ IMAGE_SIZE =         config.get('IA.IMAGE_SIZE')
 MODEL_NAME_H5 =      config.get('IA.Model.MODEL_NAME_H5')
 MODEL_NAME =         config.get('IA.Model.MODEL_NAME')
 
+"""
+N.B : This script was used to debug images that cause problems during training. 
+It works like:
+ For each "offset" species, train the model If this train generates an error, 
+ it is displayed and save it to the Error.log file.
+"""
+
 
 dataset = ia_tools.resize_all_images(DATAS_PATH,PATH_RESIZED_SAVE,re.img_crop_all,IMAGE_SIZE)
 
@@ -50,7 +57,7 @@ for i in range(0,len(species),offset):
         print(e)
         print("error on species: ", species_local)
         with open("error.log","a") as f:
-            f.write("error on species: "+str(species_local))
+            f.write("error on species: "+str(species_local)+"\n")
     if os.path.exists(MODEL_NAME_H5):shutil.rmtree(MODEL_NAME_H5)
     if os.path.exists(MODEL_NAME): shutil.rmtree(MODEL_NAME)
 

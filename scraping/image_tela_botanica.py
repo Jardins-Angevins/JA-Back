@@ -14,6 +14,10 @@ from config import config
 PATH_CSV =      config.get('IA.Model.PATH_CSV')
 DATAS_PATH =    config.get('IA.Model.DATAS_PATH')
 
+"""
+N.B : This script used to download all images for each species of the csv file.
+"""
+
 illustrations = 'https://www.tela-botanica.org/bdtfx-nn-%s-illustrations'
 
 start = 0

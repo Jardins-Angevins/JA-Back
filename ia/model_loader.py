@@ -25,6 +25,9 @@ SAVED_N_BEST =  config.get('IA.SAVED_N_BEST')
 
 class Model:
 	def __init__(self):
+		"""
+		N.B: if the model not exist we generate it else we load the model.
+		"""
 		if not Model._exist_model():
 			self._generate_model()
 		else:
@@ -34,10 +37,10 @@ class Model:
 
 	def predict_one(self,image):
 		"""
-		:param image: single image in numpy format
+		:param image: single image in numpy format.
 		:return: a tuple of two elements with :
 			the first one : a string label that describes the species of the plant in the image
-			the second one : a list of pair ( label , trust ) with the n best species
+			the second one : a list of pair ( label , trust ) with the n best species.
 		"""
 		image = np.reshape(image,(1,image.shape[0],image.shape[1],3))
 		prediction = self._loaded_model.predict(image)[0]
@@ -48,6 +51,10 @@ class Model:
 		return bestLabel,bestsPredictions
 
 	def _generate_model(self,max_trials=1):
+		"""
+		:return: None
+		N.B : Train the model and save it.
+		"""
 		# train the model
 		X_train, X_test, y_train, y_test = dataset_creator(DATAS_PATH,PATH_RESIZED_SAVE,ra.img_crop_all,IMAGE_SIZE)
 		clf = ak.ImageClassifier(overwrite=True, max_trials=max_trials)
@@ -64,12 +71,20 @@ class Model:
 			model.save(MODEL_NAME_H5)
 
 	def _load_model(self):
+		"""
+		:return: None
+		N.B : Load the model
+		"""
 		if os.path.exists(MODEL_NAME):
 			self._loaded_model = km.load_model(MODEL_NAME, custom_objects=ak.CUSTOM_OBJECTS)
 		else:
 			self._loaded_model =  km.load_model(MODEL_NAME_H5)
 
 	def _generate_labels(self):
+		"""
+		:return: None
+		N.B : generate the list of the labels
+		"""
 		with open(PATH_CSV, newline='') as csvfile:
 			csv_list = list(csv.reader(csvfile, delimiter=','))[1:]
 			self._label_list = list(set([list(line)[3] for line in csv_list if list(line)[3].isdigit()]))
@@ -77,6 +92,9 @@ class Model:
 
 	@staticmethod
 	def _exist_model():
+		"""
+		:return: True if the folder of the model exist otherwise False
+		"""
 		print("MODEL :",os.path.exists(MODEL_NAME),os.path.exists(MODEL_NAME_H5))
 		return os.path.exists(MODEL_NAME) or os.path.exists(MODEL_NAME_H5)
 
