@@ -40,9 +40,8 @@ def resize_all_images(datas_path,path_save,resize_function,image_size):
                 imgs = list(resize_function(img, (image_size[0], image_size[1])))
                 x_dataset.append(imgs)
                 y_dataset.append(int(file.split("_")[1]))
-        x_dataset = np.array(x_dataset)
-        y_dataset = np.array(y_dataset)
-        np.save(path_save,np.array([x_dataset,y_dataset]),allow_pickle=True)
+
+        np.save(path_save,[x_dataset,y_dataset],allow_pickle=True)
     else:
         dataset = np.load(path_save,allow_pickle=True)
         x_dataset = dataset[0]
