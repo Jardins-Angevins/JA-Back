@@ -44,7 +44,8 @@ def get_image_by_num(num):
     except Exception as e:
         print(e)
         return
-    all_name = set(re.findall(r'https://api\.tela-botanica\.org/img:([0-9-A-Za-z]+\.[a-z]{3})', response.text))
+    all_name = re.findall(r'https://api\.tela-botanica\.org/img:([0-9]+).*', response.text)
+    all_name = set([name + "O" + ".jpg" for name in all_name]) # O determine the size of the images to "original"
     for name in all_name:
         file_name = f'{DATAS_PATH}/IMG_{num}_{name}'
         if os.path.exists(file_name):
@@ -57,6 +58,9 @@ def get_image_by_num(num):
                 if os.path.exists(file_name) and is_bad_image(file_name):
                     os.remove(file_name)
                     print("Bad image in download: Delete file")
+                else:
+                    with LOCK:
+                        total_download += os.stat(file_name).st_size
             except Exception as e:
                 print(e)
                 return
@@ -94,3 +98,6 @@ for num in num_list:
 
 for thread in threads:
     thread.join()
+
+progressbar.set_description(
+    f'Volume de donées total : {round(total_size / 1048576, 2)} Mo | Volume téléchargé : {round(total_download / 1048576, 2)} Mo | Progression totale')
