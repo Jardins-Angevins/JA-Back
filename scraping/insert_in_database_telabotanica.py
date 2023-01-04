@@ -22,7 +22,7 @@ from ia import resize_algorithm as ra
 PATH_CSV =          config.get('IA.Model.PATH_CSV')
 DATAS_PATH =        config.get('IA.Model.DATAS_PATH')
 IMAGE_SIZE =        config.get('IA.IMAGE_SIZE')
-TELA_IMAGE_FORMAT = config.get('TELA_IMAGE_FORMAT')
+TELA_IMAGE_FORMAT = config.get('Scraping.TELA_IMAGE_FORMAT')
 
 start = 0
 end = None # to specify the start and the end of the csv file
@@ -175,7 +175,7 @@ def get_data(num):
 
 tbar = tqdm.tqdm(total=len(species))
 with Pool(processes=multiprocessing.cpu_count()) as pool:
-    for data in tqdm.tqdm(pool.imap(get_data,species)):
+    for data in pool.imap(get_data,species):
         tbar.update(1)
         Species.create(
             nominalNumber=data['nominalNumber'],

@@ -13,7 +13,7 @@ from config import config
 
 PATH_CSV =          config.get('IA.Model.PATH_CSV')
 DATAS_PATH =        config.get('IA.Model.DATAS_PATH')
-TELA_IMAGE_FORMAT = config.get('TELA_IMAGE_FORMAT')
+TELA_IMAGE_FORMAT = config.get('Scraping.TELA_IMAGE_FORMAT')
 
 """
 N.B : This script used to download all images for each species of the csv file.
