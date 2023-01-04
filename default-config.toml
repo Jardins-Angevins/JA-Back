@@ -9,6 +9,12 @@ PATH_RESIZED_SAVE = './datas/save_resized.npy'
 MODEL_NAME_H5 = "model.h5"
 MODEL_NAME= "model"
 
+[Scrapping]
+#Images in "O.jpg" Format means that these are the original images without any resizing from tela botanica,
+#Their API has several formats: CRX2S,CRXS,CXS,CS,CRS,XS,S,M, L,CRL,XL,X2L,X3L,O which determines the scale of the image.
+TELA_IMAGE_FORMAT = "O"
+
+
 [WEB]
 PORT = 8088
 DEBUG = true

@@ -19,12 +19,13 @@ from config import config
 from services.db import Species, Stats
 from ia import resize_algorithm as ra
 
-PATH_CSV =      config.get('IA.Model.PATH_CSV')
-DATAS_PATH =    config.get('IA.Model.DATAS_PATH')
-IMAGE_SIZE =    config.get('IA.IMAGE_SIZE')
+PATH_CSV =          config.get('IA.Model.PATH_CSV')
+DATAS_PATH =        config.get('IA.Model.DATAS_PATH')
+IMAGE_SIZE =        config.get('IA.IMAGE_SIZE')
+TELA_IMAGE_FORMAT = config.get('TELA_IMAGE_FORMAT')
 
 start = 0
-end = 3 # to specify the start and the end of the csv file
+end = None # to specify the start and the end of the csv file
 species_to_get = None # to specify species in a list
 
 if species_to_get is None:
@@ -117,7 +118,7 @@ def get_images(num,loader):
     try:
         image_src = image_field.get('src')
         id_image = re.findall(r'.*/img:([0-9]*).*',image_src)[0]
-        ref_name_file = f'IMG_{num}_{id_image}O.jpg' # O for the original size of the image
+        ref_name_file = f'IMG_{num}_{id_image}{TELA_IMAGE_FORMAT}.jpg'
         try:
             image = load_image(ref_name_file)
         except FileNotFoundError:

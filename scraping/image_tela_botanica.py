@@ -11,8 +11,9 @@ import sys
 sys.path.append('.')
 from config import config
 
-PATH_CSV =      config.get('IA.Model.PATH_CSV')
-DATAS_PATH =    config.get('IA.Model.DATAS_PATH')
+PATH_CSV =          config.get('IA.Model.PATH_CSV')
+DATAS_PATH =        config.get('IA.Model.DATAS_PATH')
+TELA_IMAGE_FORMAT = config.get('TELA_IMAGE_FORMAT')
 
 """
 N.B : This script used to download all images for each species of the csv file.
@@ -45,7 +46,7 @@ def get_image_by_num(num):
         print(e)
         return
     all_name = re.findall(r'https://api\.tela-botanica\.org/img:([0-9]+).*', response.text)
-    all_name = set([name + "O" + ".jpg" for name in all_name]) # O determine the size of the images to "original"
+    all_name = set([f"{name}{TELA_IMAGE_FORMAT}.jpg" for name in all_name])
     for name in all_name:
         file_name = f'{DATAS_PATH}/IMG_{num}_{name}'
         if os.path.exists(file_name):
